@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nawab ZADA | AI Video Generation Pro</title>
+    <style>
+        /* VIP HACKER THEME */
+        body { background: #000; color: #0f0; font-family: 'Courier New', Courier, monospace; text-align: center; margin: 0; padding: 0; }
+        .container { border: 2px solid #0f0; box-shadow: 0 0 20px #0f0; padding: 30px; margin: 40px auto; max-width: 550px; border-radius: 20px; background: rgba(0,255,0,0.02); }
+        h1 { text-shadow: 0 0 10px #0f0; font-size: 28px; margin-bottom: 5px; }
+        p.subtitle { color: #888; font-size: 14px; margin-bottom: 30px; }
+        
+        textarea { width: 90%; padding: 15px; background: #111; border: 1px solid #0f0; color: #fff; border-radius: 8px; font-size: 16px; margin-bottom: 20px; outline: none; }
+        textarea:focus { box-shadow: 0 0 10px #0f0; }
+
+        .v-btn { background: #0f0; color: #000; padding: 15px 30px; font-weight: bold; border: none; cursor: pointer; width: 95%; border-radius: 10px; font-size: 18px; transition: 0.4s; text-transform: uppercase; }
+        .v-btn:hover { background: #fff; box-shadow: 0 0 25px #0f0; transform: scale(1.02); }
+
+        #video-display-area { display: none; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; }
+        video { width: 100%; border-radius: 15px; border: 2px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+
+        .loader { display: none; color: #ffff00; font-weight: bold; margin: 20px 0; letter-spacing: 2px; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.1; } }
+
+        .dl-btn { background: #fff; color: #000; text-decoration: none; display: block; width: 85%; margin: 20px auto; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 16px; transition: 0.3s; }
+        .dl-btn:hover { background: #0f0; color: #000; box-shadow: 0 0 15px #0f0; }
+
+        .branding { margin-top: 60px; padding: 30px; background: linear-gradient(to bottom, #000, #0a1a0a); border-top: 2px solid #0f0; }
+        .dev-tag { color: #f00; text-shadow: 0 0 10px #fff; font-size: 24px; font-weight: bold; }
+        .on-top { color: #0f0; font-weight: bold; font-size: 18px; letter-spacing: 4px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🦅 NAWAB ZADA AI VIDEO GEN 🦾</h1>
+        <p class="subtitle">Next Generation Text-to-Video Engine v1.0</p>
+
+        <textarea id="promptInput" rows="3" placeholder="Describe your imagination... (e.g. Hacker working in dark room, Realistic Lion, Rain in Neon City)"></textarea>
+        
+        <div id="loaderStatus" class="loader">⚡ ACCESSING AI SERVERS... GENERATING VIDEO...</div>
+        
+        <button id="genAction" class="v-btn" onclick="processAIVideo()">GENERATE VIDEO</button>
+
+        <div id="video-display-area">
+            <video id="outputVid" controls autoplay loop>
+                <source src="" type="video/mp4">
+            </video>
+            <a id="saveGallery" href="" download="Nawab_ZADA_AI_Creation.mp4" class="dl-btn">
+                📥 SAVE TO GALLERY
+            </a>
+            <p style="font-size: 12px; color: #555;">Video successfully fetched from AI database.</p>
+        </div>
+    </div>
+
+    <div class="branding">
+        <div class="dev-tag">🔥 DEVELOPER NAWAB ZADA 🔥</div>
+        <div class="on-top">-- NAWAB ZADA ON TOP --</div>
+        <p style="color: #444; font-size: 10px; margin-top: 15px;">© 2026 | All Rights Reserved by Nawab ZADA Force</p>
+    </div>
+
+    <script>
+        // OFFICIAL API CONFIGURATION
+        const NAWAB_KEY = 'MrAjjaWkNLjeFV0PlFF00IYYLD91YtKXnrElQHmGOGOtGqIYOLQ6Gupi';
+
+        async function processAIVideo() {
+            const userPrompt = document.getElementById('promptInput').value;
+            
+            if (!userPrompt) { 
+                alert("Jani, pehle kuch likho to sahi!"); 
+                return; 
+            }
+
+            // UI States
+            document.getElementById('loaderStatus').style.display = 'block';
+            document.getElementById('video-display-area').style.display = 'none';
+            document.getElementById('genAction').innerText = "PROCESSING...";
+
+            try {
+                // Fetching Realistic AI Visuals via Pexels
+                const response = await fetch(`https://api.pexels.com/videos/search?query=${userPrompt}&per_page=1&orientation=landscape`, {
+                    headers: { Authorization: NAWAB_KEY }
+                });
+                
+                const result = await response.json();
+
+                if (result.videos && result.videos.length > 0) {
+                    // Sabse high quality video file nikalna
+                    const finalVideo = result.videos[0].video_files[0].link;
+                    
+                    document.getElementById('outputVid').src = finalVideo;
+                    document.getElementById('saveGallery').href = finalVideo;
+                    
+                    // Show Output
+                    document.getElementById('loaderStatus').style.display = 'none';
+                    document.getElementById('video-display-area').style.display = 'block';
+                    document.getElementById('genAction').innerText = "GENERATE ANOTHER";
+                    
+                    alert("✅ Success! Nawab ZADA AI has generated your video.");
+                } else {
+                    alert("Jani, is prompt par video nahi mili. Thora simple prompt try karo!");
+                    resetUI();
+                }
+            } catch (err) {
+                console.error(err);
+                alert("Server Connection Error! Try again later.");
+                resetUI();
+            }
+        }
+
+        function resetUI() {
+            document.getElementById('loaderStatus').style.display = 'none';
+            document.getElementById('genAction').innerText = "GENERATE VIDEO";
+        }
+    </script>
+</body>
+  </html>
+  
